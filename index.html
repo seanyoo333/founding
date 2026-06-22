@@ -1,0 +1,598 @@
+<!DOCTYPE html>
+<!--
+  에비던스베이스 · 창립 멤버 랜딩 페이지
+  ─────────────────────────────────────────────
+  연결 완료 상태:
+  · 신청 폼 : 모든 CTA는 https://forms.gle/qWtcifwKLS8jYtwY9 로 연결됨.
+  · 답변 예시 : "실제 답변은 이렇게 옵니다" 카드는 실제 챗봇(EVI) 출력(공복혈당).
+     원하면 챗봇 화면 캡처/짧은 영상으로 교체 가능 (그 자리에 주석 표시).
+  · 숫자 : 선착순 30명 / 월 9,900원 / 런칭 2026-08-15.
+  나중에 바꿀 수 있는 곳:
+  · 신청 링크를 바꾸려면 APPLY_URL(=구글폼 주소)을 검색해 일괄 교체.
+  · 출처 링크/PMID는 .cite 요소에서 교체.
+  ※ 본 서비스(작동 챗봇) 주소는 절대 걸지 말 것. 캡처/영상으로만 보여주기.
+-->
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>에비던스베이스 — 암경험자를 위한 근거 기반 건강 정보 AI</title>
+<meta name="description" content="당신의 검사 수치와 상황에 맞춰, 논문 근거로 정리해드립니다. 창립 멤버를 모십니다." />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Batang:wght@400;700&family=Noto+Sans+KR:wght@400;500;700&display=swap" rel="stylesheet" />
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<style>
+  :root{
+    --bg:#F4F6F1;
+    --surface:#FFFFFF;
+    --ink:#1C2722;
+    --ink-soft:#566B61;
+    --brand:#2E6B4E;
+    --brand-deep:#1F4A36;
+    --line:#E2E8DF;
+    --warm:#B98A3E;
+    --warm-tint:#F6EEDD;
+    --radius:16px;
+    --maxw:760px;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Pretendard","Noto Sans KR",system-ui,-apple-system,sans-serif;
+    font-size:17px;
+    line-height:1.75;
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+  }
+  .display{font-family:"Gowun Batang","Noto Sans KR",serif;}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding:0 24px;}
+  a{color:inherit;}
+
+  /* ── CTA ── */
+  .cta{
+    display:inline-block;
+    background:var(--brand);
+    color:#fff;
+    text-decoration:none;
+    font-weight:700;
+    font-size:18px;
+    padding:17px 34px;
+    border-radius:999px;
+    transition:background .18s ease, transform .18s ease;
+    box-shadow:0 6px 20px -8px rgba(31,74,54,.5);
+  }
+  .cta:hover{background:var(--brand-deep);transform:translateY(-1px);}
+  .cta:focus-visible{outline:3px solid var(--warm);outline-offset:3px;}
+  .cta-note{display:block;margin-top:14px;font-size:14px;color:var(--ink-soft);}
+
+  /* ── 공통 섹션 리듬 ── */
+  main > section{padding:64px 0;border-top:1px solid var(--line);}
+  .eyebrow{
+    font-size:13.5px;font-weight:700;letter-spacing:.14em;
+    color:var(--brand);text-transform:none;margin:0 0 18px;
+  }
+  h2.title{
+    font-family:"Gowun Batang",serif;
+    font-size:29px;line-height:1.4;font-weight:700;
+    margin:0 0 24px;letter-spacing:-.01em;
+  }
+
+  /* ── HERO ── */
+  .hero{padding:78px 0 64px;border-top:none;}
+  .hero .eyebrow{margin-bottom:22px;}
+  .hero h1{
+    font-family:"Gowun Batang",serif;
+    font-size:clamp(34px,7vw,52px);
+    line-height:1.28;font-weight:700;letter-spacing:-.02em;
+    margin:0 0 10px;
+  }
+  .hero h1 .sub{
+    display:block;font-size:clamp(20px,4.2vw,27px);
+    color:var(--ink-soft);font-weight:400;margin-top:14px;line-height:1.45;
+  }
+  .hero p.lede{
+    font-size:18.5px;color:var(--ink-soft);margin:26px 0 34px;max-width:38em;
+  }
+  .hero p.lede b{color:var(--ink);font-weight:600;}
+
+  /* ── 답변 카드 (signature) ── */
+  .answer{
+    background:var(--surface);
+    border:1px solid var(--line);
+    border-radius:var(--radius);
+    padding:30px 30px 26px;
+    box-shadow:0 24px 48px -32px rgba(28,39,34,.28);
+  }
+  .answer .q{
+    display:flex;gap:11px;align-items:flex-start;
+    padding-bottom:20px;margin-bottom:8px;border-bottom:1px solid var(--line);
+  }
+  .answer .q .tag{
+    flex:none;font-size:12px;font-weight:700;color:#fff;background:var(--ink);
+    padding:3px 9px;border-radius:6px;margin-top:4px;letter-spacing:.02em;
+  }
+  .answer .q p{margin:0;font-weight:600;font-size:17.5px;}
+  .move{padding:17px 0;border-bottom:1px dashed var(--line);}
+  .move:last-of-type{border-bottom:none;}
+  .move .lab{
+    display:flex;align-items:center;gap:9px;
+    font-size:13px;font-weight:700;color:var(--brand);margin-bottom:6px;letter-spacing:.02em;
+  }
+  .move .lab .n{
+    flex:none;width:21px;height:21px;border-radius:50%;
+    background:var(--brand);color:#fff;font-size:11.5px;
+    display:grid;place-items:center;font-weight:700;
+  }
+  .move p{margin:0;font-size:15.5px;line-height:1.7;color:var(--ink);}
+  .cite{
+    display:inline-flex;align-items:center;gap:7px;margin-top:6px;
+    background:var(--warm-tint);color:var(--warm);
+    border:1px solid #ecdcbe;border-radius:8px;
+    padding:7px 12px;font-size:13px;font-weight:600;text-decoration:none;
+  }
+  .cite:hover{filter:brightness(.97);}
+  .answer .disc{
+    margin-top:20px;padding-top:16px;border-top:1px solid var(--line);
+    font-size:12.5px;color:var(--ink-soft);line-height:1.6;
+  }
+  .demo-note{font-size:13px;color:var(--ink-soft);margin:16px 2px 0;text-align:center;}
+
+  /* ── 공감 리스트 ── */
+  ul.pain{list-style:none;margin:0;padding:0;display:grid;gap:14px;}
+  ul.pain li{
+    position:relative;padding:16px 18px 16px 50px;
+    background:var(--surface);border:1px solid var(--line);border-radius:12px;
+    font-size:16px;color:var(--ink);
+  }
+  ul.pain li::before{
+    content:"";position:absolute;left:20px;top:50%;transform:translateY(-50%);
+    width:9px;height:9px;border-radius:50%;background:var(--brand);opacity:.55;
+  }
+  .pain-foot{margin:24px 2px 0;font-size:16.5px;color:var(--ink-soft);}
+
+  /* ── 4단계 how ── */
+  .steps{display:grid;gap:0;}
+  .step{display:flex;gap:18px;padding:18px 0;border-bottom:1px solid var(--line);}
+  .step:last-child{border-bottom:none;}
+  .step .num{
+    flex:none;font-family:"Gowun Batang",serif;font-size:26px;font-weight:700;
+    color:var(--brand);width:38px;line-height:1.2;
+  }
+  .step h3{margin:2px 0 5px;font-size:17.5px;font-weight:700;}
+  .step p{margin:0;font-size:15.5px;color:var(--ink-soft);line-height:1.65;}
+
+  /* ── 신뢰 ── */
+  .trust-list{display:grid;gap:16px;margin:0;padding:0;list-style:none;}
+  .trust-list li{
+    display:flex;gap:13px;align-items:flex-start;font-size:16px;line-height:1.65;
+  }
+  .trust-list li .ico{
+    flex:none;width:26px;height:26px;border-radius:50%;background:#e8f0ea;
+    color:var(--brand);display:grid;place-items:center;font-size:14px;font-weight:700;margin-top:2px;
+  }
+
+  /* ── who ── */
+  .who-card{
+    background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);
+    padding:30px 28px;font-size:18px;line-height:1.7;
+  }
+  .who-card b{color:var(--brand);}
+
+  /* ── 창업자 노트 ── */
+  .founder p{margin:0 0 16px;font-size:16.5px;line-height:1.8;color:var(--ink);}
+  .founder p:last-child{margin-bottom:0;}
+  .founder .sign{
+    margin-top:22px;padding-top:18px;border-top:1px solid var(--line);
+    font-family:"Gowun Batang",serif;font-size:15.5px;color:var(--ink-soft);
+  }
+  .founder .sign b{color:var(--brand);font-weight:700;}
+
+  /* ── 차별점 콜아웃 ── */
+  .callout{
+    background:var(--warm-tint);border:1px solid #ecdcbe;border-radius:var(--radius);
+    padding:24px 26px;margin-top:26px;
+  }
+  .callout h3{margin:0 0 8px;font-size:17px;font-weight:700;color:var(--warm);}
+  .callout p{margin:0;font-size:15.5px;line-height:1.7;color:var(--ink);}
+  .callout p b{color:var(--ink);font-weight:700;}
+
+  /* ── 정책/입금 안내 ── */
+  .policy{display:grid;gap:26px;}
+  .policy h3{
+    margin:0 0 12px;font-size:16px;font-weight:700;color:var(--brand);
+    letter-spacing:.01em;
+  }
+  .policy ul{list-style:none;margin:0;padding:0;display:grid;gap:10px;}
+  .policy li{
+    position:relative;padding-left:22px;font-size:15px;line-height:1.65;color:var(--ink);
+  }
+  .policy li::before{
+    content:"";position:absolute;left:4px;top:.62em;
+    width:6px;height:6px;border-radius:50%;background:var(--brand);opacity:.5;
+  }
+  .policy li b{font-weight:700;}
+  .flow{
+    display:flex;flex-wrap:wrap;align-items:center;gap:8px;margin-top:4px;
+    font-size:14.5px;color:var(--ink-soft);
+  }
+  .flow span{
+    background:var(--surface);border:1px solid var(--line);border-radius:999px;
+    padding:7px 14px;font-weight:600;color:var(--ink);
+  }
+  .flow .arr{color:var(--brand);font-weight:700;}
+
+  /* ── offer ── */
+  .offer{background:#102e22;color:#eaf1ec;border-top:none;}
+  .offer .wrap{text-align:center;}
+  .offer .eyebrow{color:#8fc7a9;}
+  .offer h2.title{color:#fff;}
+  .offer .price-row{
+    display:inline-flex;align-items:baseline;gap:10px;margin:6px 0 4px;
+    font-family:"Gowun Batang",serif;
+  }
+  .offer .price{font-size:46px;font-weight:700;color:#fff;letter-spacing:-.02em;}
+  .offer .per{font-size:18px;color:#9fb8ab;}
+  .offer .price-sub{color:#9fb8ab;font-size:15px;margin:0 0 28px;}
+  .perks{
+    list-style:none;margin:0 auto 32px;padding:0;max-width:430px;
+    text-align:left;display:grid;gap:14px;
+  }
+  .perks li{
+    display:flex;gap:12px;align-items:flex-start;font-size:16px;color:#d8e4dd;line-height:1.6;
+  }
+  .perks li .ck{flex:none;color:#8fc7a9;font-weight:700;margin-top:1px;}
+  .perks li b{color:#fff;font-weight:600;}
+  .offer .cta{background:#fff;color:var(--brand-deep);box-shadow:0 8px 24px -8px rgba(0,0,0,.5);}
+  .offer .cta:hover{background:#eef3ef;}
+  .seats{
+    display:inline-block;margin-bottom:24px;font-size:14px;font-weight:600;
+    color:#102e22;background:#8fc7a9;padding:7px 16px;border-radius:999px;
+  }
+
+  /* ── FAQ ── */
+  .faq details{
+    border-bottom:1px solid var(--line);padding:6px 0;
+  }
+  .faq summary{
+    cursor:pointer;list-style:none;padding:16px 30px 16px 2px;position:relative;
+    font-weight:700;font-size:17px;
+  }
+  .faq summary::-webkit-details-marker{display:none;}
+  .faq summary::after{
+    content:"+";position:absolute;right:6px;top:50%;transform:translateY(-50%);
+    font-size:22px;color:var(--brand);font-weight:400;transition:transform .2s ease;
+  }
+  .faq details[open] summary::after{content:"–";}
+  .faq .ans{padding:0 2px 18px;color:var(--ink-soft);font-size:15.5px;line-height:1.7;}
+
+  /* ── footer ── */
+  .foot{border-top:1px solid var(--line);padding:40px 0 60px;}
+  .foot p{margin:0 0 8px;font-size:13px;color:var(--ink-soft);line-height:1.65;}
+  .foot .brand{font-family:"Gowun Batang",serif;font-size:17px;color:var(--ink);font-weight:700;margin-bottom:14px;}
+
+  /* ── 모바일 고정 CTA ── */
+  .sticky{
+    position:fixed;left:0;right:0;bottom:0;z-index:50;
+    background:rgba(244,246,241,.94);backdrop-filter:blur(8px);
+    border-top:1px solid var(--line);padding:12px 16px;
+    display:none;
+  }
+  .sticky .cta{display:block;text-align:center;width:100%;padding:15px;font-size:17px;box-shadow:none;}
+  @media (max-width:600px){
+    body{font-size:16px;}
+    main > section{padding:50px 0;}
+    h2.title{font-size:25px;}
+    .answer{padding:24px 20px 22px;}
+    .sticky{display:block;}
+    .foot{padding-bottom:96px;}
+  }
+
+  /* ── 등장 애니메이션 ── */
+  .reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal.in{opacity:1;transform:none;}
+  @media (prefers-reduced-motion:reduce){
+    html{scroll-behavior:auto;}
+    .reveal{opacity:1;transform:none;transition:none;}
+    .cta{transition:none;}
+  }
+</style>
+</head>
+<body>
+
+<main>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="wrap reveal">
+      <p class="eyebrow">암경험자와 가족을 위한 · 근거 기반 건강 정보 AI</p>
+      <h1 class="display">
+        “이거 먹어도 될까?”
+        <span class="sub">항암 중 매번 검색하지만,<br />뭘 믿어야 할지 모르겠다면.</span>
+      </h1>
+      <p class="lede">
+        당신의 <b>검사 수치와 상황에 맞춰</b>, 논문 근거로 정리해드립니다.
+        광고도, 장사꾼의 말도 아닌 — <b>근거와 출처가 있는 답</b>.
+      </p>
+      <!-- APPLY_URL: 신청 폼 -->
+      <a class="cta" href="https://forms.gle/qWtcifwKLS8jYtwY9" target="_blank" rel="noopener">창립 멤버 신청하기</a>
+      <span class="cta-note">정식 오픈(2026년 8월 15일) 전, 함께 만들어갈 창립 멤버 · 선착순 30명</span>
+    </div>
+  </header>
+
+  <!-- 답변 카드 (signature) -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow reveal">실제 답변은 이렇게 옵니다</p>
+      <!-- 이 카드는 챗봇 실제 출력. 원하면 화면 캡처/짧은 영상으로 교체 가능 -->
+      <div class="answer reveal">
+        <div class="q">
+          <span class="tag">질문</span>
+          <p>혈당이 높은 게 암경험자한테 무슨 의미야?</p>
+        </div>
+
+        <div class="move">
+          <div class="lab"><span class="n">1</span> 기전</div>
+          <p>공복혈당 상승은 인슐린 저항성과 관련이 있습니다. 고혈당 상태는 종양 미세환경을 변화시켜 암세포의 대사를 촉진할 수 있다고 연구되고 있습니다.</p>
+        </div>
+
+        <div class="move">
+          <div class="lab"><span class="n">2</span> 근거</div>
+          <p>지속적인 고혈당은 암 진행에 부정적 영향을 미치며, 특히 공복혈당이 101 mg/dL를 초과할 경우 혈당 조절이 필요하다는 신호로 보고됩니다.</p>
+          <!-- 출처 링크 교체 가능 -->
+          <a class="cite" href="https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4016871/" target="_blank" rel="noopener">📄 출처 · Hyperglycemia, a Neglected Factor during Cancer Progression — PMC (PMID: 4016871)</a>
+        </div>
+
+        <div class="move">
+          <div class="lab"><span class="n">3</span> 내 데이터 기반</div>
+          <p>기록하신 공복혈당이 정상 범위를 초과하고 있습니다. 암경험자에게는 이 수치가 특히 주의가 필요하며, 혈당 조절이 필요하다는 신호입니다.</p>
+        </div>
+
+        <div class="move">
+          <div class="lab"><span class="n">4</span> 요약</div>
+          <p>규칙적인 식사와 균형 잡힌 식단, 적절한 운동과 스트레스 관리가 도움이 될 수 있습니다. 다만 진단·처방은 하지 않으며, 수치가 지속적으로 높다면 담당 의료진과 상담하세요.</p>
+        </div>
+
+        <p class="disc">진단·처방이 아닌 건강관리 참고 정보입니다. 자세한 내용은 담당 의료진과 상의해 주세요.</p>
+      </div>
+      <p class="demo-note reveal">※ 모든 답변에 근거 논문의 출처가 함께 제시됩니다.</p>
+    </div>
+  </section>
+
+  <!-- 3대 기능 -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow reveal">무엇을 제공하나요</p>
+      <h2 class="title display reveal">세 가지를 하나로 묶었습니다</h2>
+      <div class="steps reveal">
+        <div class="step">
+          <span class="num display">1</span>
+          <div>
+            <h3>건강 데이터 기록 · 시각화</h3>
+            <p>혈액검사·의무기록·생활습관을 기록하고, 추세를 그래프로 한눈에. 입력 정보는 암호화·익명화되어 보호됩니다.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num display">2</span>
+          <div>
+            <h3>근거 제공 AI 행동지원 챗봇</h3>
+            <p>내 데이터를 바탕으로, 지금 무엇을 해볼 수 있는지 논문 출처와 함께 안내합니다.</p>
+          </div>
+        </div>
+        <div class="step">
+          <span class="num display">3</span>
+          <div>
+            <h3>최신 논문 해설 · 근거 자료</h3>
+            <p>카더라·광고가 아닌, 정리된 근거. 최신 연구를 쉽게 풀어 공유합니다.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="callout reveal">
+        <h3>범용 AI(ChatGPT)와 무엇이 다른가요</h3>
+        <p>범용 AI는 통합의학·암 대사치료 영역을 보수적으로 낮게 평가하도록 설계되어 있습니다. 본 서비스는 <b>현대 표준의학의 테두리 안에서</b> 통합의학 근거의 가중치를 높여, 암경험자의 선호에 맞는 <b>해볼 수 있는 선택지</b>를 안내합니다.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 공감 -->
+  <section>
+    <div class="wrap">
+      <h2 class="title display reveal">이런 적, 있으셨나요</h2>
+      <ul class="pain reveal">
+        <li>영양제·식이 정보는 넘치는데, 뭘 골라야 할지 막막하다</li>
+        <li>지금 받는 항암치료나 복용 약과 부딪히진 않을지 늘 불안하다</li>
+        <li>검색 결과가 광고인지 진짜 근거인지 구분이 안 된다</li>
+        <li>진료 시간은 짧고, 궁금한 걸 다 묻기 어렵다</li>
+      </ul>
+      <p class="pain-foot reveal">혼자 검색하고 혼자 불안해하지 않도록, 만들었습니다.</p>
+    </div>
+  </section>
+
+  <!-- 4단계 -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow reveal">무엇을 해주나요</p>
+      <h2 class="title display reveal">질문 하나에, 네 단계로 답합니다</h2>
+      <div class="steps reveal">
+        <div class="step"><span class="num display">1</span><div><h3>기전</h3><p>왜 그런지, 작동 원리부터 설명합니다.</p></div></div>
+        <div class="step"><span class="num display">2</span><div><h3>근거</h3><p>관련 논문과 연구를 소개합니다.</p></div></div>
+        <div class="step"><span class="num display">3</span><div><h3>개인화</h3><p>당신의 검사 수치·복용 약·생활습관에 맞춰 정리합니다.</p></div></div>
+        <div class="step"><span class="num display">4</span><div><h3>요약 + 출처</h3><p>핵심 정리와 함께, 모든 근거의 출처 링크를 드립니다.</p></div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 신뢰 -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow reveal">믿을 수 있나요</p>
+      <h2 class="title display reveal">우리가 지키는 것</h2>
+      <ul class="trust-list reveal">
+        <li><span class="ico">✓</span><div>큐레이션된 논문을 근거로, <b>모든 답변에 출처를 명시</b>합니다.</div></li>
+        <li><span class="ico">✓</span><div><b>진단·처방이 아닌 참고 정보</b>입니다. 최종 결정은 담당 의료진과 상의하세요.</div></li>
+        <li><span class="ico">✓</span><div>입력하신 건강 정보는 <b>암호화·보호</b>되며, 동의 없이 사용되지 않습니다.</div></li>
+      </ul>
+    </div>
+  </section>
+
+  <!-- 누구를 위한 -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow reveal">누구를 위한 서비스인가요</p>
+      <div class="who-card reveal">
+        항암 치료 중이거나 경과를 관찰 중인 <b>암경험자, 그리고 그 가족</b>을 위해 만들었습니다.
+      </div>
+    </div>
+  </section>
+
+  <!-- 창업자 노트 -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow reveal">왜 만들었나요</p>
+      <h2 class="title display reveal">아내 곁에서 시작된 기록입니다</h2>
+      <div class="who-card founder reveal">
+        <p>제 아내는 암 대사치료와 산에서의 활동, 그리고 꾸준한 검사 기록과 근거 기반 정보로 암을 극복했고, 지금도 건강하게 잘 지내고 있습니다.</p>
+        <p>그 과정에서 저는 늘 같은 질문 앞에 섰습니다. “오늘은 뭘 먹어야 하지? 이 보조제는 정말 효과가 있나? 무슨 근거가 있지?” 정보는 넘쳤지만, 나에게 맞는 행동을 가려내고 결단하는 일은 오롯이 환자와 보호자의 몫이었습니다.</p>
+        <p>그래서 논문 근거를 직접 공부해 정리하고, 자연요법 종양학·암 면역요법 관련 자료를 카페 회원들과 함께 번역했으며, 산림치유 보급에도 힘써 왔습니다.</p>
+        <p>이 경험을 누구나 재현할 수 있게 만들고 싶어, 컴퓨터공학을 전공하고 정부 지원 AI 개발 교육을 우수한 성적으로 수료하며 직접 개발했습니다. <b>내 아내에게 그대로 써도 좋다고 생각하는 기준</b>으로 만든 서비스입니다.</p>
+        <p class="sign">에비던스베이스 · 대표 <b>유명길</b></p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 창립 멤버 -->
+  <section class="offer">
+    <div class="wrap reveal">
+      <p class="eyebrow">창립 멤버 혜택</p>
+      <h2 class="title display">먼저 함께해 주실 30분을 모십니다</h2>
+      <span class="seats">선착순 30명 한정</span>
+      <div class="price-row">
+        <span class="price">월 9,900원</span>
+      </div>
+      <p class="price-sub">창립 멤버 전용가 · 정식 오픈 후 가격이 올라도 동일하게 유지됩니다</p>
+      <ul class="perks">
+        <li><span class="ck">✓</span><div><b>월 9,900원</b> · 창립 멤버 자격과 가격 <b>평생 유지</b> (정식 오픈 후에도 동일)</div></li>
+        <li><span class="ck">✓</span><div>AI 조언을 함께 상의하는 <b>창립 멤버 전용 카카오톡 방</b></div></li>
+        <li><span class="ck">✓</span><div>창립 멤버 <b>온라인 뱃지</b> · 향후 신기능 <b>우선 사용권</b></div></li>
+        <li><span class="ck">✓</span><div>서비스 방향을 함께 정하는 <b>첫 30명</b></div></li>
+        <li><span class="ck">✓</span><div><b>2026년 8월 15일</b> 런칭까지 서비스가 제공되지 않으면 <b>전액 환불</b></div></li>
+      </ul>
+      <!-- APPLY_URL: 신청 폼 -->
+      <a class="cta" href="https://forms.gle/qWtcifwKLS8jYtwY9" target="_blank" rel="noopener">창립 멤버 신청하기</a>
+      <p class="price-sub" style="margin:18px 0 0;">신청 후 입금 안내를 보내드립니다 · 30분이 차면 마감합니다</p>
+    </div>
+  </section>
+
+  <!-- 정책 / 입금 안내 -->
+  <section>
+    <div class="wrap">
+      <p class="eyebrow reveal">안심하고 신청하세요</p>
+      <h2 class="title display reveal">구독 · 환불 · 입금 안내</h2>
+      <div class="policy reveal">
+        <div>
+          <h3>신청 · 입금</h3>
+          <div class="flow">
+            <span>① 신청 폼 작성</span><span class="arr">→</span>
+            <span>② 입금 안내 수신</span><span class="arr">→</span>
+            <span>③ 월 9,900원 입금</span>
+          </div>
+          <ul style="margin-top:14px;">
+            <li>월 9,900원, 매월 정기 결제 (현재는 <b>수동 입금</b> 방식)</li>
+            <li>창립 멤버 자격과 가격(<b>9,900원</b>)은 <b>평생 유지</b> — 정식 오픈 후 인상되어도 동일</li>
+          </ul>
+        </div>
+        <div>
+          <h3>해지</h3>
+          <ul>
+            <li>이메일 또는 1:1 채널로 “해지 요청”을 보내시면 <b>즉시 처리</b></li>
+            <li>해지 시 <b>다음 달부터 결제 중단</b> / 재가입해도 창립 멤버 자격 유지</li>
+          </ul>
+        </div>
+        <div>
+          <h3>환불</h3>
+          <ul>
+            <li><b>7일 이내</b>: 첫 결제 후 7일 이내 요청 시 묻지도 않고 <b>전액 환불</b></li>
+            <li>7일 이후: 당월 구독은 환불 불가, 다음 달부터 결제 중단</li>
+            <li><b>2026년 8월 15일</b> 런칭일까지 서비스가 공급되지 않으면 <b>전액 환불</b></li>
+            <li>환불 요청: 신청하신 이메일로 회신 또는 1:1 채널</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section class="faq">
+    <div class="wrap">
+      <h2 class="title display reveal">자주 묻는 질문</h2>
+      <div class="reveal">
+        <details>
+          <summary>AI가 의사를 대체하나요?</summary>
+          <div class="ans">아니요. 의료진과의 상담을 돕는 참고 정보 도구입니다. 진단이나 처방은 하지 않습니다.</div>
+        </details>
+        <details>
+          <summary>답변이 정확한가요?</summary>
+          <div class="ans">모든 답변에는 근거 논문의 출처가 함께 제시됩니다. 스스로 출처를 확인하실 수 있으며, 최종 판단은 의료진과 함께 하시길 권합니다.</div>
+        </details>
+        <details>
+          <summary>제 정보는 안전한가요?</summary>
+          <div class="ans">입력하신 정보는 암호화되어 보호되며, 답변 생성 외의 목적으로 사용되지 않습니다.</div>
+        </details>
+        <details>
+          <summary>영양제를 파는 곳인가요?</summary>
+          <div class="ans">아니요. 특정 제품을 판매하지 않습니다. 근거 기반 정보를 정리해드리는 서비스입니다.</div>
+        </details>
+        <details>
+          <summary>정식 런칭은 언제인가요?</summary>
+          <div class="ans">2026년 8월 15일 예정입니다. 그때까지는 기능이 점진적으로 추가되는 베타 단계이며, 런칭일까지 서비스가 공급되지 않으면 전액 환불해 드립니다.</div>
+        </details>
+        <details>
+          <summary>결제는 어떻게 하나요?</summary>
+          <div class="ans">신청 폼을 작성하시면 입금 안내를 보내드립니다. 현재는 월 9,900원 수동 입금 방식이며, 창립 멤버 가격은 평생 유지됩니다. 7일 이내에는 묻지 않고 전액 환불됩니다.</div>
+        </details>
+      </div>
+    </div>
+  </section>
+
+  <!-- footer -->
+  <footer class="foot">
+    <div class="wrap">
+      <p class="brand display">에비던스베이스</p>
+      <p>운영자: 에비던스베이스 (대표 유명길) · 문의는 댓글·쪽지 또는 신청 시 안내드리는 1:1 채널로 받습니다.</p>
+      <p>본 서비스는 건강관리 참고 정보를 제공하며, 의학적 진단·처방·치료를 대체하지 않습니다. 건강 관련 결정은 반드시 담당 의료진과 상의하시기 바랍니다.</p>
+      <p>특정 영양제·보조제를 판매하거나 효능을 보장하지 않습니다.</p>
+    </div>
+  </footer>
+
+</main>
+
+<!-- 모바일 고정 CTA -->
+<div class="sticky">
+  <!-- APPLY_URL: 신청 폼 -->
+  <a class="cta" href="https://forms.gle/qWtcifwKLS8jYtwY9" target="_blank" rel="noopener">창립 멤버 신청하기 · 선착순 30명</a>
+</div>
+
+<script>
+  // 스크롤 등장
+  (function(){
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var els = document.querySelectorAll('.reveal');
+    if(reduce || !('IntersectionObserver' in window)){
+      els.forEach(function(el){el.classList.add('in');});
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(e){
+        if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}
+      });
+    },{threshold:0.12});
+    els.forEach(function(el){io.observe(el);});
+  })();
+</script>
+
+</body>
+</html>
